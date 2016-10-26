@@ -210,6 +210,7 @@ user["age"] = 28  #=> {"name"=>"ruoyu", "age"=>28}
 user2 = { "name" => "ruoyu", "age" => 28}
 
 ```
+### 哈希和符号（2）
 ```
 user = {:name => "jirengu", :age=> 2}
 user[:name]       #=> "jirengu"
@@ -221,6 +222,8 @@ user3 = { "name" => "ruoyu", "age" => 28}
 user3 == user     #=> false 上面不等价  "name" != :name
 
 :name.inspect     #=> ":name" ， 返回字面量
+
+user.merge({sex: 'mail'})
 
 ```
 
