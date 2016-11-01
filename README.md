@@ -227,5 +227,103 @@ user.merge({sex: 'mail'})
 
 ```
 
+### 类、对象-构造方法
+
+```
+"hello".class  #=> String
+:wrold.class   #=> Symbol
+
+s = String.new("ruoyu")  #=> "ruoyu"
+s == "ruoyu"             #=> true
+
+h = Hash.new             #=> {}
+h[:name]                 #=> nil
+h = Hash.new(0)          #=> {}   用于初始化
+h[:age]                  #=> 0
+```
+### 类、对象-构造方法（2）
+```
+"hello".class    #=> String
+"hello".class.superclass  #=> Object
+"hello".class.superclass.superclass  #=> BasicObject
+"hello".class.superclass.superclass.superclass  #=> nil
+```
+### 类、对象-构造方法（3）
+```
+class Word
+  def palindrome?(str)
+    str == str.reverse
+  end
+end
+w = Word.new
+puts w.palindrome?('abcdcba')
+```
+
+### 类、对象-构造方法-继承（4）
+```
+class Word < String
+  def palindrome?
+    self == self.reverse   # self代表对象本身
+    #self == reverse
+  end
+end
+w = Word.new('abcdcba')
+puts w.palindrome?
+puts w.length
+```
+
+### 类、对象-构造方法-修改内置类（4）
+```
+class String
+  def palindrome?
+    self == self.reverse   # self代表对象本身
+    #self == reverse
+  end
+end
+
+puts "aba".palindrome?
+
+```
+### 类、对象-构造方法
+```
+class User
+    attr_accessor :first, :last
+    def initialize(attr = {})
+        @first = attr[:first]
+        @last = attr[:last]
+    end
+    def full_name
+       "#{@first} #{@last}" 
+    end
+end
+u = User.new(first: 'ruo', last:'yu')
+puts u.full_name   #=> "ruoyu"
+u.first = 'jirengu'
+puts u.full_name   #=> "jirengu yu"
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
