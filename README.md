@@ -302,6 +302,120 @@ u.first = 'jirengu'
 puts u.full_name   #=> "jirengu yu"
 ```
 
+## rails 代码摘录
+
+###  bash命令
+```bash
+rails generate model User name:string email:string
+rails db:migrate
+rails db:rollback
+rails console --sandbox
+
+rails generate migration add_index_to_users_email
+rails generate migration add_password_digest_to_users password_digest:string
+```
+
+### console 命令
+```
+User.all
+User.first
+User.all[0]
+
+User.find(1)
+User.find_by(name: "ruoyu")
+
+user = User.first
+user.name = "ruoyu"
+user.save
+user.update_attributes(name: "hunger", email: "hunger@a.com")
+
+
+User.new(name: "ruoyu", email: "hunger@jirengu.com")
+User.save
+
+User.create(name: "fang", email: "fang@jirengu.com")
+
+user.destory
+
+```
+
+### migrate
+```ruby
+#db/migrate/[timestamp]_create_users.rb
+class CreateUsers < ActiveRecord::Migration[5.0]
+  def change
+    create_table :users do |t|
+      t.string :name
+      t.string :email
+
+      t.timestamps
+    end
+  end
+end
+
+#db/migrate/[timestamp]_add_index_to_users_email.rb
+class AddIndexToUsersEmail < ActiveRecord::Migration[5.0]
+  def change
+    add_index :users, :email, unique: true
+  end
+end
+
+#db/migrate/[timestamp]_add_password_digest_to_users.rb
+class AddPasswordDigestToUsers < ActiveRecord::Migration[5.0]
+  def change
+    add_column :users, :password_digest, :string
+  end
+end
+```
+
+### model
+```ruby
+#app/models/user.rb
+class User < ApplicationRecord
+  before_save { self.email = email.downcase }
+  validates :name, presence: true, length: { maximum: 50 }
+  VALID_EMAIL_REGEX = /\A[\w+\-.]+@[a-z\d\-]+(\.[a-z\d\-]+)*\.[a-z]+\z/i
+  validates :email, presence:   true, length: { maximum: 255 },
+                    format:     { with: VALID_EMAIL_REGEX },
+                    uniqueness: true
+  has_secure_password
+end
+```
+
+```
+params.require(:user).permit(:name, :email, :password, :password_confirmation)
+```
+
+### view
+```
+<%= debug(params) if Rails.env.development? %>
+```
+
+### 环境
+development, test, production
+
+```
+rails console test
+rails server --environment production
+rails db:migrate RAILS_ENV=production
+RAILS_ENV=production rails server
+```
+### 调试
+```
+# gem byebug
+class UsersController < ApplicationController
+
+  def show
+    @user = User.find(params[:id])
+    debugger
+  end
+
+  def new
+  end
+end
+```
+
+
 
 
 
